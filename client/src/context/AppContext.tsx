@@ -62,13 +62,48 @@ const loadUser=async()=>{
 
 useEffect(()=>{
     loadUser();
-},[]);
+},[token]);
 
-const login=async(email:string, password:string)=>{}
+const login=async(email:string, password:string)=>{
+    try{
+        const response=await api.post(`${BACKEND_URL}/api/auth/login`, {email, password});
+        if(response.data.success){
+            setToken(response.data.token);
+            setUser(response.data.user);
+            localStorage.setItem("token", response.data.token);
+            return {success:true};
+        }
+        return {success:false, message:response.data.message};
+    }catch(error:any){
+        return {success:false, message:error.response?.data?.message || "Login failed"};
+    }
+}
 
-const register=async(name:string, email:string, password:string)=>{}
+const register=async(name:string, email:string, password:string)=>{
+    try{
+        const response=await api.post(`${BACKEND_URL}/api/auth/register`, {name, email, password});
+        if(response.data.success){
+                // console.log("Token from backend:", response.data.token);
 
-const logout=async()=>{}
+                // localStorage.setItem("token", response.data.token);
+
+                // console.log("Token in localStorage:", localStorage.getItem("token"));
+            setToken(response.data.token);
+            setUser(response.data.user);
+            localStorage.setItem("token", response.data.token);
+            return {success:true};
+        }
+        return {success:false, message:response.data.message};
+    }catch(error:any){
+        return {success:false, message:error.response?.data?.message || "Registration failed"};
+    }
+}
+
+const logout=async()=>{
+    setToken(null);
+     setUser(null);
+    localStorage.removeItem("token");
+}
 
 
     const value={user, token, loading, api, login, register, logout};
