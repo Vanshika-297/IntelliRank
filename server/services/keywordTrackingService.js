@@ -1,11 +1,17 @@
 import { rankTracker } from './rankTrackerService.js';
 export async function keywordTracking(tracking){
+        // console.log("keywordTracking started");
     try {
         let result;
 
         //Try upto 2 times for reliability
         for (let attempt = 0; attempt < 2; attempt++) {
+                    // console.log("Attempt:", attempt + 1);
+
             result = await rankTracker(tracking.keyword, tracking.domain);
+
+            // console.log("RankTracker Result:", result);
+
             if (result.success && result.data.totalResultsScanned>0) {
                 break;
             }
@@ -31,7 +37,7 @@ export async function keywordTracking(tracking){
             const historyEntry={
                 date: today,
                 position: result.data.position,
-                page: result.data.page, 
+                page: result.data.page,  
                 title: result.data.title,
                 snippet: result.data.snippet
             }
@@ -41,7 +47,13 @@ export async function keywordTracking(tracking){
         }else{
                 tracking.status='failed';
             }
+
+            // console.log("Before save");
+
             await tracking.save()
+
+                //  console.log("After save");
+
             return result;
 
 } catch (error) {

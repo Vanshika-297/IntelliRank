@@ -76,8 +76,14 @@ export const refreshKeyword=async(req,res)=>{
         }
         tracking.status='checking';
         await tracking.save();
-        res.json({ success: true, message: 'Rank check started' });
+        res.json({ success: true, message: 'Rank check started', tracking });
+
+        // console.log("Refresh clicked");
+        // console.log("Tracking ID:", tracking._id);
+
         keywordTracking(tracking)
+
+        // console.log("keywordTracking function called");
     } catch (error) {
         console.error('Refresh keyword error:', error.message);
         res.status(500).json({ success: false, message: 'Server error' });
@@ -108,7 +114,7 @@ export const toggleTracking=async(req,res)=>{
         }
         tracking.active=!tracking.active;
         await tracking.save();
-        res.json({ success: true, message: 'Keyword tracking updated' });
+        res.json({ success: true, message: 'Keyword tracking updated', tracking });
     } catch (error) {
         console.error('Toggle tracking error:', error.message);
         res.status(500).json({ success: false, message: 'Server error' });

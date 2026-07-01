@@ -66,7 +66,7 @@ const {api}=useApp()
                 const id=res.data.tracking._id;
                 const pollInterval = setInterval(async () => {
                     try {
-                        const check=await api.get(`/api/rank/status/${id}`);
+                        const check=await api.get(`/api/rank/${id}`);
                         if(check.data.tracking.status !== "checking"){
                             clearInterval(pollInterval);
                             setKeywords((prev) => prev.map((k) => (k._id === id ? check.data.tracking : k)));
@@ -83,21 +83,52 @@ const {api}=useApp()
     };
     const handleRefresh = async (id: string) => {
         setRefreshing(id);
-        setTimeout(() => {
+        try {
+            await api.post(`/api/rank/${id}/refresh`);
+            //Update status to checking
+            setKeywords((prev) => prev.map((k) => (k._id === id ? { ...k, status: "checking" } : k)));
+            
+            //Poll for completion
+            const pollInterval = setInterval(async () => {
+               try {
+                  const check=await api.get(`/api/rank/${id}`);
+                    if(check.data.tracking.status !== "checking"){
+                     clearInterval(pollInterval);
+                     setKeywords((prev) => prev.map((k) => (k._id === id ? check.data.tracking : k)));
+                     setRefreshing(null);
+                  }
+                } catch (err: any) {
+                   console.error("Error checking status:", err);
+                }},3000);
+        } catch (err) {
+            console.error("Refresh failed:", err);
             setRefreshing(null);
-        }, 1000);
+        }
+
+
     };
 
     const handleDelete = async (id: string) => {
         if (!confirm("Delete this keyword tracking?")) return;
         setDeleting(id);
-        setTimeout(() => {
-            setDeleting(null);
-        }, 1000);
+        try {
+            await api.delete(`/api/rank/${id}`);
+            setKeywords((prev) => prev.filter((k) => k._id !== id));
+        } catch (err) {
+            console.error("Delete failed:", err);
+        }
+        setDeleting(null);
     };
 
     const handleToggle = async (id: string) => {
-        console.log(id);
+        try {
+           const res= await api.put(`/api/rank/${id}/toggle`);
+           if(res.data.success){
+            setKeywords((prev) => prev.map((k) => (k._id === id ? { ...k, active: res.data.tracking.active } : k)));
+           }
+        } catch (err) {
+            console.error("Toggle failed:", err);
+        }
     };
 
     const getPositionBadge = (pos: number | null) => {
