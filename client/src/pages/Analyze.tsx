@@ -69,14 +69,22 @@ export default function Analyze() {
                             clearInterval(pollRef.current)
                         }
                         setCurrentStep(3)
-                        setTimeout(()=>navigate(`/report/`))
+                        setTimeout(()=>navigate(`/report/${id}`),1000)
+                    }else if(analysis.status==="failed"){
+                        if(pollRef.current) clearInterval(pollRef.current)
+                            setError("Analysis failed. The AI model might be down")
+                        setAnalyzing(false)
+                    }else{
+                        //Still processing-advance visual step
+                        if(attempts >5) setCurrentStep(2)
                     }
                 } catch (error) {
-                    
+                    //ignore polling errors
                 }
             },2000)
-        } catch (error) {
-            
+        } catch (err:any) {
+            setError(err.response?.data?.message || err.message || "failed to start analysis")
+            setAnalyzing(false)
         }
     };
 

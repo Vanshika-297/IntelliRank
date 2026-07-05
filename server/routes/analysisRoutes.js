@@ -22,6 +22,6 @@ analysisRouter.get('/list', auth, getAnalyses);
 analysisRouter.get('/:id', auth, getAnalysis);
 
 // 4. Kisi history card ko remove karne ke liye (DELETE)
-analysisRouter.delete('/r:id', auth, deleteAnalysis);
+analysisRouter.delete('/:id', auth, deleteAnalysis);
 
 export default analysisRouter;

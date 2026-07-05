@@ -33,9 +33,11 @@ export const analyzeUrl = async (req, res) => {
                     await analysis.save();
                     return;
                 }
+//                 console.log("Scrape Result:", scrapeResult);
+// console.log("Scrape Data:", scrapeResult.data);
 
                 //Step 2:Anayze with Gemini API
-                const aiResult = await analyzeSeoData(scrapeResult); 
+                const aiResult = await analyzeSeoData(scrapeResult.data); 
 
                 if (!aiResult.success) {
                     analysis.status = "failed";
@@ -107,7 +109,7 @@ export const getAnalyses = async (req, res) => {
         const limit=parseInt(req.query.limit) || 10;
         const skip=(page-1)*limit;
 
-        const analyses = await Analysis.findOne({ _id: req.params.id, userId: req.userId }).sort({createdAt:-1}).skip(skip).limit(limit).select
+        const analyses = await Analysis.find({ userId: req.userId }).sort({createdAt:-1}).skip(skip).limit(limit).select
         ("-issues -keywords");
 
         const total =await Analysis.countDocuments({userId:req.userId})

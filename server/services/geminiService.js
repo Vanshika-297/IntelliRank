@@ -51,8 +51,7 @@ const seoAnalysisSchema = {
     required: ["overallScore", "categories", "keywords", "issues"],
 };
 
-
-export async function analyzeSeoData(scrappedData){
+export async function analyzeSeoData(scrapedData){
     try {
         // Prompt for getting SEO Analysis structured data from AI
 const prompt = `You are an expert SEO analyst. Analyze the following website data and provide a comprehensive SEO audit.
@@ -94,7 +93,7 @@ IMAGES:
 - With Alt Text: ${scrapedData.images.withAlt}
 
 PAGE CONTENT (first 3000 chars):
-${scrapedData.bodyText}
+${scrapedData.bodyText.slice(0,3000)}
 
 Scoring guidelines:
 - Title: 50-60 chars optimal, must exist
@@ -114,7 +113,7 @@ Provide 5-15 issues sorted by severity (critical first). Be specific and actiona
 Extract top 10 keywords by frequency from the page content.`;
 
 const response=await ai.models.generateContent({
-    model:'gemma-4-31b-it',
+    model:'gemini-2.5-flash',
     contents:[{role:"user",parts:[{text:prompt}]}],
     config:{
         responseMimeType:"application/json",
@@ -128,6 +127,8 @@ const response=await ai.models.generateContent({
 
     } catch (error) {
         console.error("Gemini analysis error:",error.message);
+            console.error(error);
+     console.error(error.message);
         return {success:false,error:error.message}
         
     }

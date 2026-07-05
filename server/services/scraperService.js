@@ -113,6 +113,7 @@ export async function scrapeUrl(url) {
             await page.close();
             await browser.close();
 
+            // console.log("Scraped Data:", scrapedData);
             return {success: true, data: scrapedData, loadTime, statusCode,url};
 
 
