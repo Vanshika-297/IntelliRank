@@ -8,6 +8,8 @@ interface User{
     email:string;   
     password:string;
     analysisCount?:number;
+        plan?: "Free" | "Pro";
+
 }
 
 interface AppContextType{
