@@ -1,4 +1,4 @@
-import Analysis from "../models/analysis.js";
+import Analysis from "../models/Analysis.js";
 import Chat from "../models/chatModel.js";
 import { askSeoAssistant } from "../services/chatService.js";
 
