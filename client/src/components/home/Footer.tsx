@@ -47,7 +47,7 @@ export default function Footer() {
                 </div>
 
                 <div className="pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
-                    <p className="text-sm text-muted-foreground">© {new Date().getFullYear()} RankPilot. All rights reserved.</p>
+                    <p className="text-sm text-muted-foreground">© {new Date().getFullYear()} IntelliRank. All rights reserved.</p>
                     <div className="flex items-center gap-6">
                         <span className="text-xs text-muted-foreground">Status: All Systems Operational</span>
                     </div>
