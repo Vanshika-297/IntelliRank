@@ -126,7 +126,7 @@ export const getAnalyses = async (req, res) => {
 //Delete analysis 
 export const deleteAnalysis = async (req, res) => {
         try {
-        await Analysis.findOne({ _id: req.params.id, userId: req.userId });
+        await Analysis.findOneAndDelete({ _id: req.params.id, userId: req.userId });
 
 
         res.json({ success: true, message:"Analysis deleted" });

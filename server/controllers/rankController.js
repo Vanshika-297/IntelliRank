@@ -1,4 +1,4 @@
-import KeywordTracking from '../models/KeywordTracking.js';
+import KeywordTracking from '../models/keywordTracking.js';
 import { keywordTracking } from '../services/keywordTrackingService.js';
 //Add keyword to track
 export const addKeyword=async(req,res)=>{
@@ -93,7 +93,7 @@ export const refreshKeyword=async(req,res)=>{
 //Delete keyword tracking
 export const deleteKeyword=async(req,res)=>{
         try {
-        const tracking = await KeywordTracking.findByIdAndDelete({ _id: req.params.id, userId: req.userId });
+        const tracking = await KeywordTracking.findOneAndDelete({ _id: req.params.id, userId: req.userId });
         if (!tracking) {
             return res.status(404).json({ success: false, message: 'Keyword tracking not found' });
         }
