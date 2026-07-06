@@ -4,6 +4,7 @@ import ScoreGauge from "../components/ScoreGauge";
 import IssueCard from "../components/IssueCard";
 import { ArrowLeft, Globe, Clock, FileText, Image, Link2, Heading, Tag, AlertCircle, ExternalLink, Type, Search } from "lucide-react";
 import { useApp } from "../context/AppContext";
+import SeoChat from "../components/SeoChat";
 
 interface AnalysisData {
     _id: string;
@@ -496,7 +497,11 @@ export default function Report() {
                             )}
                         </div>
                     )}
-                </div>
+
+                    {analysis?._id && (
+                    <SeoChat analysisId={analysis._id} />
+                    )}           
+             </div>
             </div>
         </div>
     );
