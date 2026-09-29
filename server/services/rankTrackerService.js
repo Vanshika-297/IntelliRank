@@ -78,6 +78,7 @@ export async function rankTracker(keyword, targetDomain) {
               title:h3.innerText.trim(),snippet:s}
             }).filter(Boolean)
           );
+          console.log("Google results extracted:", pageResults);
           if(pageResults.length > 0)break;
           await page.reload({waitUntil:"networkidle"})
         } catch (err) {
