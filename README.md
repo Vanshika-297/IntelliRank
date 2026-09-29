@@ -4,7 +4,7 @@ IntelliRank is a full-stack **AI-powered SEO analysis and keyword rank tracking 
 
 ## 🌐 Live Demo
 
-**Live Application:** https://intelli-rank-eight.vercel.app/
+**Live Application:** https://intelli-rank-verp-1vi0c9lzh-vanshikas-projects-c0938def.vercel.app
 
 ---
 
