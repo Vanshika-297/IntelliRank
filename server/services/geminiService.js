@@ -117,7 +117,7 @@ Provide 5-15 issues sorted by severity (critical first). Be specific and actiona
 Extract top 10 keywords by frequency from the page content.`;
 
         const response=await ai.models.generateContent({
-            model:'gemini-2.5-flash',
+            model:'gemini-3.8-flash',
             contents:[{role:"user",parts:[{text:prompt}]}],
             config:{
                 responseMimeType:"application/json",
@@ -130,7 +130,7 @@ Extract top 10 keywords by frequency from the page content.`;
 
     } catch (error) {
         console.error("================ AI ERROR DETAILED LOG ================");
-        console.error("Model Name: gemini-2.5-flash");
+        console.error("Model Name: gemini-3.8-flash");
         console.error("HTTP Status:", error.status || "N/A");
         console.error("Error Code:", error.code || "N/A");
         console.error("Error Message:", error.message);
